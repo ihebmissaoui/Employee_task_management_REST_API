@@ -17,7 +17,11 @@ public class EmployeeService {
     return employeeRepository.findAll();
   }
 
-  public Employee findEmployeeByFirstName(String firstName) {
+  public Employee findEmployeeById(String id) {
+    return employeeRepository.findById(id).orElse(null);
+  }
+
+  public List<Employee> findEmployeeByFirstName(String firstName) {
     return employeeRepository.findByFirstName(firstName);
   }
 
@@ -26,7 +30,24 @@ public class EmployeeService {
   }
 
   public Employee saveEmployee(Employee employee) {
+    //to ignore the null in the master Id (reference to master of the employee)
+      Employee masterEmployee=employeeRepository.findByFirstName(employee.getMaster().getFirstName()).get(0);
+      masterEmployee.setMaster(null);
+      employee.setMaster(masterEmployee);
+
     return employeeRepository.save(employee);
+  }
+
+  public Employee updateEmployee(String id, Employee employee) {
+    Employee newEmployee = employeeRepository.findById(id).orElse(null);
+    if (newEmployee == null) {
+      return null;
+    }
+    employee.setId(newEmployee.getId());
+    // ... other properties
+    return employeeRepository.save(employee);
+   
+
   }
 
   public void deleteEmployee(String id) {
