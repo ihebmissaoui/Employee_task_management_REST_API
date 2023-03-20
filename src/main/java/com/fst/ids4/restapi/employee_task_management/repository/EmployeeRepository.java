@@ -11,4 +11,5 @@ import com.fst.ids4.restapi.employee_task_management.models.Employee;
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
     List<Employee> findByFirstName(String firstName);
     List<Employee> findByLastName(String lastName);
+    List<Employee> findByAccountName(String accountName);
 }
