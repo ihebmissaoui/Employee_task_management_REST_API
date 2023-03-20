@@ -2,7 +2,6 @@ package com.fst.ids4.restapi.employee_task_management.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 @Document(collection = "employee")
 public class Employee {
 
@@ -13,6 +12,7 @@ public class Employee {
     private String address;
     private String accountName;
     private String grade;
+
     private Employee master;
 
     public Employee(String firstName, String lastName, String address, String accountName, String grade,

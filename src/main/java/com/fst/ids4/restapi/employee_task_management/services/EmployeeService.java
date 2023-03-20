@@ -13,7 +13,11 @@ public class EmployeeService {
   @Autowired
   private EmployeeRepository employeeRepository;
 
+  
+
   public List<Employee> findAllEmployees() {
+    System.out.println(employeeRepository==null);
+
     return employeeRepository.findAll();
   }
 
@@ -31,9 +35,21 @@ public class EmployeeService {
 
   public Employee saveEmployee(Employee employee) {
     //to ignore the null in the master Id (reference to master of the employee)
-      Employee masterEmployee=employeeRepository.findByFirstName(employee.getMaster().getFirstName()).get(0);
-      masterEmployee.setMaster(null);
-      employee.setMaster(masterEmployee);
+      List<Employee> l=employeeRepository.findByAccountName(employee.getMaster().getAccountName());
+      if(l.size()>0)
+      {
+        Employee masterEmployee  =l.get(0);
+        masterEmployee.setMaster(null);
+
+        employee.setMaster(masterEmployee);
+        
+
+      }
+      else 
+      {
+        employee.setMaster(null);
+      }
+     
 
     return employeeRepository.save(employee);
   }
